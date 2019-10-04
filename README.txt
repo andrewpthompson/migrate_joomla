@@ -1,1 +1,1 @@
-Migrate Joomla content and users
+Migrate Joomla content and users along with tags/categories
