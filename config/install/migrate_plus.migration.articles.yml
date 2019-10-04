@@ -1,0 +1,59 @@
+id: articles
+label: Articles
+migration_group: joomla
+source:
+  plugin: articles
+  constants:
+    slash: '/'
+process:
+  title: title  
+  'body/value': 
+    plugin: concat
+    delimiter:  
+    source:
+      - introtext
+      - fulltext
+  'body/format':
+    plugin: default_value
+    default_value: full_html
+  path: 
+    plugin: concat
+    source:
+      - constants/slash
+      - alias 
+  field_tags:
+    -
+      plugin: explode
+      source: joomla_tags
+      delimiter: ,
+    -
+      plugin: entity_generate
+      value_key: name
+      bundle_key: vid
+      bundle: tags
+      entity_type: taxonomy_term
+      ignore_case: true
+  field_category:
+    plugin: migration_lookup
+    migration: category
+    source: catid
+  created:
+    plugin: callback
+    callable: strtotime
+    source: created
+  type:
+    plugin: default_value
+    default_value: article
+  uid:
+    plugin: migration_lookup
+    migration: users
+    source: created_by
+  status:
+    plugin: default_value
+    default_value: 1
+destination:
+  plugin: entity:node
+migration_dependencies:
+  required:
+    - users
+    - category

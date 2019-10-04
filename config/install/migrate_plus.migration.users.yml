@@ -1,0 +1,32 @@
+id: users
+label: User migration
+migration_group: joomla
+source:
+  plugin: users
+process:
+  pass: password
+  mail: email
+  init: email
+  status:
+    plugin: default_value
+    default_value: 1
+  roles:
+    plugin: default_value
+    default_value: 2
+  name:
+    plugin: make_unique_entity_field
+    source: username
+    entity_type: user
+    field: name
+    postfix: _
+  created:
+    plugin: callback
+    source: registerDate
+    callable: strtotime
+  changed: '@created'
+  access: '@created'
+  login: '@created'
+destination:
+  plugin: entity:user
+  md5_passwords: true
+migration_dependencies: {}
