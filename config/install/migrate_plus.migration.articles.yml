@@ -25,7 +25,7 @@ process:
     -
       plugin: explode
       source: joomla_tags
-      delimiter: ,
+      delimiter: ','
     -
       plugin: entity_generate
       value_key: name
