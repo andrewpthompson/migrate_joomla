@@ -28,5 +28,4 @@ process:
   login: '@created'
 destination:
   plugin: entity:user
-  md5_passwords: true
 migration_dependencies: {}
