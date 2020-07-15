@@ -18,7 +18,7 @@ class Users extends SqlBase {
    */
   public function query() {
     $query = $this->select('{users}', 'u')
-      ->fields('u', ['id', 'username', 'password', 'email', 'registerDate']);
+      ->fields('u', ['id', 'username', 'password', 'email', 'registerDate', 'block']);
     return $query;
   }
 
@@ -44,6 +44,7 @@ class Users extends SqlBase {
       'password' => $this->t('Password'),
       'email' => $this->t('Email'),
       'registerDate' => $this->t('Created'),
+      'block' => $this->t('Blocked'),
     ];
 
     return $fields;

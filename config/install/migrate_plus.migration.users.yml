@@ -8,8 +8,11 @@ process:
   mail: email
   init: email
   status:
-    plugin: default_value
-    default_value: 1
+    plugin: static_map
+    source: block
+    map:
+      '1': 0
+      '0': 1
   roles:
     plugin: default_value
     default_value: 2
