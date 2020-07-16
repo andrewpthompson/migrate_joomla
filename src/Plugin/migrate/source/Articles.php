@@ -18,7 +18,7 @@ class Articles extends SqlBase {
    */
   public function query() {
     $query = $this->select('{content}', 'd')
-      ->fields('d', ['id', 'title', 'catid', 'alias', 'introtext', 'fulltext', 'created', 'created_by']);
+      ->fields('d', ['id', 'title', 'catid', 'alias', 'introtext', 'fulltext', 'created', 'created_by', 'state']);
      
     return $query;
   }
@@ -53,6 +53,7 @@ class Articles extends SqlBase {
       'created' => $this->t('created_date'),
       //'keywords' => $this->t('keywords'),
       'created_by' => $this->t('Author'),
+      'state' => $this->t('Published state'),
     ];
 
     return $fields;

@@ -49,8 +49,11 @@ process:
     migration: users
     source: created_by
   status:
-    plugin: default_value
-    default_value: 1
+    plugin: static_map
+    source: state
+    map:
+      1: 1
+    default_value: 0     
 destination:
   plugin: entity:node
 migration_dependencies:
