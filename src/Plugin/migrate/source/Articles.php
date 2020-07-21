@@ -18,7 +18,7 @@ class Articles extends SqlBase {
    */
   public function query() {
     $query = $this->select('{content}', 'd')
-      ->fields('d', ['id', 'title', 'catid', 'alias', 'introtext', 'fulltext', 'created', 'created_by', 'state']);
+      ->fields('d', ['id', 'title', 'catid', 'alias', 'introtext', 'fulltext', 'created', 'created_by', 'state', 'publish_down', 'attribs']);
      
     return $query;
   }
@@ -45,7 +45,9 @@ class Articles extends SqlBase {
       'catid' => $this->t('Category'),
       'alias' => $this->t('alias'),
       'introtext' => $this->t('introtext'),
-      'fulltext' => $this->t('Page Body'),
+      //'fulltext' => $this->t('Page Body'),
+      'body' => $this->t('Article Body'),
+      'summary' => $this->t('Article Summary'),
       // 'city' => $this->t('City'),
       // 'state' => $this->t('State'),
       // 'site_url' => $this->t('Site URL'),
@@ -54,6 +56,9 @@ class Articles extends SqlBase {
       //'keywords' => $this->t('keywords'),
       'created_by' => $this->t('Author'),
       'state' => $this->t('Published state'),
+      //'publish_down'
+      //'attribs'
+      //
     ];
 
     return $fields;
@@ -75,6 +80,25 @@ class Articles extends SqlBase {
       $row->setSourceProperty('joomla_tags', implode(',', $joomla_tags));
     }else{
       $row->setSourceProperty('joomla_tags', 'stub');
+    }
+    
+    // Get the article's 'show_intro' publishing option, which is JSON-encoded
+    // in the 'attribs' column. Assuming the global default setting is to show
+    // article intro, then if show_intro is "0" ("Show Intro Text" is set to
+    // "Hide" for the article) then the body shall consist of only the fulltext
+    // field. Otherwise concatenate introtext and fulltext.
+    $attribs = json_decode($row->getSourceProperty('attribs'));
+    if ($attribs->show_intro == '0') {
+      $row->setSourceProperty('body', $row->getSourceProperty('fulltext'));
+    } else {
+      $row->setSourceProperty('body', $row->getSourceProperty('introtext') . $row->getSourceProperty('fulltext'));      
+    }
+    
+    // Get the summary, which will be in introtext but only if fulltext is not
+    // empty. (If "Read More" is not used then all text will be in introtext and
+    // the summary can be left empty.)
+    if (!empty($row->getSourceProperty('fulltext'))) {
+      $row->setSourceProperty('summary', $row->getSourceProperty('introtext'));
     }
 
     return parent::prepareRow($row);

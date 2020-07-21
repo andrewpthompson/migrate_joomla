@@ -7,12 +7,8 @@ source:
     slash: '/'
 process:
   title: title  
-  'body/value': 
-    plugin: concat
-    delimiter:  
-    source:
-      - introtext
-      - fulltext
+  'body/value': body
+  'body/summary': summary
   'body/format':
     plugin: default_value
     default_value: full_html
