@@ -78,8 +78,6 @@ class Articles extends SqlBase {
 
     if(count($joomla_tags) > 0){
       $row->setSourceProperty('joomla_tags', implode(',', $joomla_tags));
-    }else{
-      $row->setSourceProperty('joomla_tags', 'stub');
     }
     
     // Get the article's 'show_intro' publishing option, which is JSON-encoded
