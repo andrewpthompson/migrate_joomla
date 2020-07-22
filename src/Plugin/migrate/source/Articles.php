@@ -18,8 +18,20 @@ class Articles extends SqlBase {
    */
   public function query() {
     $query = $this->select('{content}', 'd')
-      ->fields('d', ['id', 'title', 'catid', 'alias', 'introtext', 'fulltext', 'created', 'created_by', 'state', 'publish_down', 'attribs']);
-     
+      ->fields('d', [
+        'id',
+        'title',
+        'catid',
+        'alias',
+        'introtext',
+        'fulltext',
+        'created',
+        'created_by',
+        'state',
+        'publish_down',
+        'attribs'
+       ]);
+
     return $query;
   }
 
@@ -71,12 +83,12 @@ class Articles extends SqlBase {
    
     $query = $this->select('{tags}', 't');
     $query->join('{contentitem_tag_map}', 'map', 't.id = map.tag_id');
-    $joomla_tags =  $query->fields('t', array('title'))
+    $joomla_tags =  $query->fields('t', ['title'])
       ->condition('map.content_item_id', $row->getSourceProperty('id'))
       ->execute()
       ->fetchCol();
 
-    if(count($joomla_tags) > 0){
+    if (count($joomla_tags) > 0) {
       $row->setSourceProperty('joomla_tags', implode(',', $joomla_tags));
     }
     
@@ -88,7 +100,8 @@ class Articles extends SqlBase {
     $attribs = json_decode($row->getSourceProperty('attribs'));
     if ($attribs->show_intro == '0') {
       $row->setSourceProperty('body', $row->getSourceProperty('fulltext'));
-    } else {
+    }
+    else {
       $row->setSourceProperty('body', $row->getSourceProperty('introtext') . $row->getSourceProperty('fulltext'));      
     }
     
@@ -100,7 +113,5 @@ class Articles extends SqlBase {
     }
 
     return parent::prepareRow($row);
-    
   }
 }
-
