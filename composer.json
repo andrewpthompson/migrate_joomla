@@ -10,7 +10,7 @@
   },
   "license": "GPL-2.0-or-later",
   "require": {
-    "drupal/migrate": "^8",
+    "drupal/migrate": "^8 || ^9",
     "drupal/migrate_tools": "^4 || ^5"
   },
   "require-dev": {
