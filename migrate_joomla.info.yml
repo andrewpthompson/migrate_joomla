@@ -1,6 +1,7 @@
 name: Migrate Joomla
 type: module
 core: 8.x
+core_version_requirement: ^8 || ^9
 description: 'Migrate Joomla articles/categories/tags and users to Drupal-8.'
 dependencies:
   - migrate
